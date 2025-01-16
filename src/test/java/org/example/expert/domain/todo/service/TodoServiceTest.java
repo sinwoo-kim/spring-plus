@@ -2,6 +2,7 @@ package org.example.expert.domain.todo.service;
 
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.example.expert.domain.common.exception.InvalidRequestException;
@@ -16,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class TodoServiceTest {
 
-	@InjectMocks
+	@InjectMocks // 클래스를 기반으로 객체를 생성
 	private TodoService todoService;
 
 	@Mock
@@ -34,5 +35,15 @@ public class TodoServiceTest {
 		Assertions.assertThrows(InvalidRequestException.class, () -> {
 			todoService.getTodo(todoId);
 		});
+	}
+
+	@Test
+	public void getTodos_success() {
+		// given
+
+
+		// when
+		// then
+
 	}
 }

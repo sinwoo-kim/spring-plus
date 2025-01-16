@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class TodoServiceTest {
 
 	@InjectMocks
-	private TodoService todoService; // Mock 빈 등록
+	private TodoService todoService;
 
 	@Mock
 	private TodoRepository todoRepository;  // Repository는 Mock

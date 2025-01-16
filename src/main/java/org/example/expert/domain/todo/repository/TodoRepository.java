@@ -14,8 +14,10 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
 	@Query("SELECT t FROM Todo t LEFT JOIN FETCH t.user WHERE " +
 		"(:startDate IS NULL OR t.modifiedAt >= :startDate) AND " +
-		"(:endDate IS NULL OR t.modifiedAt <= :endDate)")
+		"(:endDate IS NULL OR t.modifiedAt <= :endDate) AND " +
+		"(:weather IS NULL OR t.weather = :weather)")
 	Page<Todo> findAllByOrderByModifiedAtDesc(
+		@Param("weather") String weather,
 		@Param("startDate") LocalDateTime startDate,
 		@Param("endDate") LocalDateTime endDate,
 		Pageable pageable

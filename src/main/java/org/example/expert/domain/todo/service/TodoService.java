@@ -54,6 +54,7 @@ public class TodoService {
 		Pageable pageable = PageRequest.of(page - 1, size);
 
 		Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(
+			todoGetRequest.weather(),
 			todoGetRequest.getStartDateTime(),
 			todoGetRequest.getEndDateTime(),
 			pageable

@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -59,7 +61,7 @@ public class TodoService {
 			todoGetRequest.getEndDateTime(),
 			pageable
 		);
-
+		log.info(":::: 할 일 목록 조회 완료");
 		return todos.map(todo -> new TodoResponse(
 			todo.getId(),
 			todo.getTitle(),

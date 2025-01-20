@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public record CustomUserDetails(Long userId, String email, String nickName, String role) implements UserDetails {
+public record CustomUserDetails(Long userId, String email, String role) implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -24,8 +24,8 @@ public record CustomUserDetails(Long userId, String email, String nickName, Stri
 		return userId.toString();
 	}
 
-	public static CustomUserDetails from(Long userId, String email, String nickName, String role) {
-		return new CustomUserDetails(userId ,email, nickName, role);
+	public static CustomUserDetails from(Long userId, String email, String role) {
+		return new CustomUserDetails(userId ,email, role);
 	}
 
 }

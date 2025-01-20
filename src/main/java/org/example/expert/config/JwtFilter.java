@@ -47,11 +47,10 @@ public class JwtFilter extends OncePerRequestFilter {
 					.from(
 						jwtUtil.extractUserId(token),
 						jwtUtil.extractEmail(token),
-						jwtUtil.extractNickName(token),
 						jwtUtil.extractRole(token));
 
 				Authentication auth = new UsernamePasswordAuthenticationToken(
-					userDetails,
+					userDetails.userId(),
 					null,
 					userDetails.getAuthorities());
 

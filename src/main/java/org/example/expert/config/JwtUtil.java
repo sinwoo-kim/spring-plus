@@ -1,8 +1,9 @@
 package org.example.expert.config;
 
-import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+
+import javax.crypto.SecretKey;
 
 import org.example.expert.domain.common.exception.ServerException;
 import org.example.expert.domain.user.enums.UserRole;
@@ -14,7 +15,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j(topic = "JwtUtil")
@@ -22,32 +22,29 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtUtil {
 
 	private static final String BEARER_PREFIX = "Bearer ";
-	private static final long TOKEN_TIME = 60 * 60 * 1000L; // 60분
 
-	@Value("${jwt.secret.key}")
-	private String secretKey;
-	private Key key;
+	private final SecretKey key;
+
+	@Value("${jwt.expiration}")
+	private long expiration;
+
 	private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
-	@PostConstruct
-	public void init() {
-		byte[] bytes = Base64.getDecoder().decode(secretKey);
-		key = Keys.hmacShaKeyFor(bytes);
+	public JwtUtil(@Value("${secret-key}") String base64Key) {
+		this.key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(base64Key));
 	}
 
 	public String createToken(Long userId, String email, UserRole userRole, String nickName) {
 		Date date = new Date();
-
-		return BEARER_PREFIX +
-			Jwts.builder()
-				.setSubject(String.valueOf(userId))
-				.claim("email", email)
-				.claim("userRole", userRole)
-				.claim("nickName", nickName)
-				.setExpiration(new Date(date.getTime() + TOKEN_TIME))
-				.setIssuedAt(date) // 발급일
-				.signWith(key, signatureAlgorithm) // 암호화 알고리즘
-				.compact();
+		return Jwts.builder()
+			.setSubject(String.valueOf(userId))
+			.claim("email", email)
+			.claim("userRole", userRole)
+			.claim("nickName", nickName)
+			.setExpiration(new Date(date.getTime() + expiration))
+			.setIssuedAt(date) // 발급일
+			.signWith(key, signatureAlgorithm) // 암호화 알고리즘
+			.compact();
 	}
 
 	public String substringToken(String tokenValue) {
@@ -65,8 +62,20 @@ public class JwtUtil {
 			.getBody();
 	}
 
-	public String extractUserId(String token) {
-		return extractClaims(token).getSubject();
+	public boolean validateToken(String token) {
+		try {
+			return !extractClaims(token).getExpiration().before(new Date());
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public Long extractUserId(String token) {
+		return Long.parseLong(extractClaims(token).getSubject());
+	}
+
+	public String extractEmail(String token) {
+		return extractClaims(token).get("email", String.class);
 	}
 
 	public String extractRole(String token) {
@@ -76,4 +85,5 @@ public class JwtUtil {
 	public String extractNickName(String token) {
 		return extractClaims(token).get("nickName", String.class);
 	}
+
 }

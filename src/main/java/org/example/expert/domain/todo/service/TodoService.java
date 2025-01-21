@@ -1,11 +1,15 @@
 package org.example.expert.domain.todo.service;
 
+import java.util.List;
+
 import org.example.expert.client.WeatherClient;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.dto.request.TodoGetRequest;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
+import org.example.expert.domain.todo.dto.request.TodoSearchRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.dto.response.UserResponse;
@@ -14,6 +18,7 @@ import org.example.expert.domain.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,6 +95,20 @@ public class TodoService {
 			new UserResponse(user.getId(), user.getEmail(), user.getNickName()),
 			todo.getCreatedAt(),
 			todo.getModifiedAt()
+		);
+	}
+
+
+	public Page<TodoSearchResponse> searchTodoList(int page, int size,
+		TodoSearchRequest todoSearchRequest) {
+		Pageable pageable = PageRequest.of(page - 1, size);
+
+		return todoRepository.findByTodoList(
+			todoSearchRequest.title(),
+			todoSearchRequest.getStartDateTime(),
+			todoSearchRequest.getEndDateTime(),
+			todoSearchRequest.nickName(),
+			pageable
 		);
 	}
 }

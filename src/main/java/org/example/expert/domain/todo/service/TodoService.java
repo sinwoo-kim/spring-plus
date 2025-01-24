@@ -3,6 +3,7 @@ package org.example.expert.domain.todo.service;
 import java.util.List;
 
 import org.example.expert.client.WeatherClient;
+import org.example.expert.domain.Log.ManagerLog;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.dto.request.TodoGetRequest;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
@@ -36,6 +37,10 @@ public class TodoService {
 	private final WeatherClient weatherClient;
 	private final UserRepository userRepository;
 
+	@ManagerLog(
+		action ="MANAGER_REGISTRATION",
+		description = "신규 매니저 등록"
+	)
 	@Transactional
 	public TodoSaveResponse saveTodo(Long userId, TodoSaveRequest todoSaveRequest) {
 		User user = userRepository.findById(userId)

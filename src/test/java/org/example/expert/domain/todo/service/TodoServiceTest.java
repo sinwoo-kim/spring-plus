@@ -41,7 +41,6 @@ public class TodoServiceTest {
 	public void getTodos_success() {
 		// given
 
-
 		// when
 		// then
 

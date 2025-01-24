@@ -27,11 +27,11 @@ public class ManagerController {
 
 	@PostMapping("/todos/{todoId}/managers")
 	public ResponseEntity<ManagerSaveResponse> saveManager(
-		@AuthenticationPrincipal CustomUserDetails userDetails,
+		@AuthenticationPrincipal Long userId,
 		@PathVariable long todoId,
 		@Valid @RequestBody ManagerSaveRequest managerSaveRequest
 	) {
-		return ResponseEntity.ok(managerService.saveManager(userDetails.userId(), todoId, managerSaveRequest));
+		return ResponseEntity.ok(managerService.saveManager(userId, todoId, managerSaveRequest));
 	}
 
 	@GetMapping("/todos/{todoId}/managers")

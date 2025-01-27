@@ -76,4 +76,7 @@
 👉 [storeId받는다 vs 안받는다](https://www.notion.so/Store-Id-181eed21a2548068ad80d54811fe6d3d?pvs=4)
 
 ### 4. @Transaction 독립 처리 구현하기
-👉 [Propagation.REQUIRES_NEW가 먹히질 않는다]()
+👉 [Propagation.REQUIRES_NEW가 먹히질 않는다](https://www.notion.so/3-11-182eed21a2548091852dfc861eab5f25?pvs=4)
+
+### 5. aws 배포
+👉 https://www.notion.so/AWS-Elastic-Beanstalk-188eed21a254809d9652e5bd9f20771a?pvs=4

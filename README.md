@@ -35,7 +35,7 @@
 ## 🗂️ APIs
 작성한 API는 아래에서 확인할 수 있습니다.
 
-👉🏻 [API 바로보기](/spring-plus/APIs.md)
+👉🏻 [API 바로보기](https://github.com/sinwoo-kim/spring-plus/blob/main/APIs.md)
 
 <br />
 

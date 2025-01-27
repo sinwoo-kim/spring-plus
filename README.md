@@ -74,3 +74,6 @@
 
 ### 3. 리팩토링/구조
 👉 [storeId받는다 vs 안받는다](https://www.notion.so/Store-Id-181eed21a2548068ad80d54811fe6d3d?pvs=4)
+
+### 4. @Transaction 독립 처리 구현하기
+👉 [Propagation.REQUIRES_NEW가 먹히질 않는다]()
